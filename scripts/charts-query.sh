@@ -16,9 +16,7 @@ CHARTS_FILE_DB="${CHARTS_DIR_DATA}/charts.db"
 
 deps-validate() {
   cat <<EOF | deps-check
-cat
 duckdb
-getopt
 EOF
 }
 

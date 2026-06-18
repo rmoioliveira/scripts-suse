@@ -20,7 +20,6 @@ CHARTS_GIT_REMOTE="https://github.com/rancher/charts.git"
 deps-validate() {
   cat <<EOF | deps-check
 awk
-cat
 duckdb
 getopt
 git
