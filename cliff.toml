@@ -4,7 +4,7 @@ header = """
 """
 body = """
 {% if version %}\
-    ## [{{ version | replace(from="v", to="")}}](http://github.com/rmoioliveira/scripts-suse/refs/{{version}}) - {{ timestamp | date(format="%Y-%m-%d") }}\n
+    ## [{{ version | replace(from="v", to="")}}](https://github.com/rmoioliveira/scripts-suse/releases/tag/{{version}}) - {{ timestamp | date(format="%Y-%m-%d") }}\n
 {% else %}\
     ## [unreleased]\n
 {% endif %}\
