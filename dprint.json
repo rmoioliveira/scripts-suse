@@ -1,0 +1,50 @@
+{
+  "typescript": {
+  },
+  "json": {
+  },
+  "markdown": {
+  },
+  "toml": {
+  },
+  "dockerfile": {
+  },
+  "biome": {
+  },
+  "oxc": {
+  },
+  "mago": {
+  },
+  "ruff": {
+  },
+  "jupyter": {
+  },
+  "malva": {
+  },
+  "markup": {
+  },
+  "yaml": {
+  },
+  "graphql": {
+  },
+  "excludes": [
+    "**/node_modules",
+    "**/*-lock.json"
+  ],
+  "plugins": [
+    "https://plugins.dprint.dev/typescript-0.96.1.wasm",
+    "https://plugins.dprint.dev/json-0.22.0.wasm",
+    "https://plugins.dprint.dev/markdown-0.22.1.wasm",
+    "https://plugins.dprint.dev/toml-0.7.0.wasm",
+    "https://plugins.dprint.dev/dockerfile-0.4.1.wasm",
+    "https://plugins.dprint.dev/biome-0.13.0.wasm",
+    "https://plugins.dprint.dev/oxc-0.28.0.wasm",
+    "https://plugins.dprint.dev/mago-0.20.0.wasm",
+    "https://plugins.dprint.dev/ruff-0.7.16.wasm",
+    "https://plugins.dprint.dev/jupyter-0.2.3.wasm",
+    "https://plugins.dprint.dev/g-plane/malva-v0.16.0.wasm",
+    "https://plugins.dprint.dev/g-plane/markup_fmt-v0.27.3.wasm",
+    "https://plugins.dprint.dev/g-plane/pretty_yaml-v0.6.0.wasm",
+    "https://plugins.dprint.dev/g-plane/pretty_graphql-v0.2.3.wasm"
+  ]
+}

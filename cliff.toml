@@ -1,0 +1,39 @@
+[changelog]
+header = """
+# Changelog\n
+"""
+body = """
+{% if version %}\
+    ## [{{ version | replace(from="v", to="")}}](http://github.com/rmoioliveira/scripts-suse/refs/{{version}}) - {{ timestamp | date(format="%Y-%m-%d") }}\n
+{% else %}\
+    ## [unreleased]\n
+{% endif %}\
+{% for group, commits in commits | group_by(attribute="group") %}\
+    {% for commit in commits %}\
+        - [{{ commit.id | truncate(length=7, end="") }}](http://github.com/rmoioliveira/scripts-suse/commit/{{ commit.id }}) - **{{ group}}:** {{ commit.message | upper_first }}
+    {% endfor %}\
+{% endfor %}\n
+"""
+trim = true
+footer = """"""
+
+[git]
+conventional_commits = true
+commit_parsers = [
+  { message = "^release:*", group = "Releases" },
+  { message = ".*bump bin version to.+", group = "Releases" },
+  { message = "^Merge Request*", group = "Merge Request" },
+  { message = ".+deps.+", group = "Dependencies" },
+  { message = "^deps*", group = "Dependencies" },
+  { message = "^chore*", group = "Miscellaneous Tasks" },
+  { message = "^ci*", group = "CI" },
+  { message = "^doc*", group = "Documentation" },
+  { message = "^[Ff]eat*", group = "Features" },
+  { message = "^fix*", group = "Bug Fixes" },
+  { message = "^perf*", group = "Performance" },
+  { message = "^test*", group = "Testing" },
+  { body = ".*security", group = "Security" },
+  { message = ".*", group = "Other", default_scope = "other" },
+]
+filter_commits = false
+tag_pattern = "[0-9]*"
