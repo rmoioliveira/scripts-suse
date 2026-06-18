@@ -1,7 +1,8 @@
 # Changelog
 
-## [unreleased]
+## [0.3.0](https://github.com/rmoioliveira/scripts-suse/releases/tag/0.3.0) - 2026-06-18
 
+- [5efd2a8](http://github.com/rmoioliveira/scripts-suse/commit/5efd2a8f5dc112052bd88925c5cf918d97be9408) - **Bug Fixes:** Fix tags link in CHANGELOG.md
 - [ca21ccb](http://github.com/rmoioliveira/scripts-suse/commit/ca21ccb864e2d6d42b2897e96c8ea2a61c846755) - **Releases:** 0.2.0
 
 ## [0.2.0](https://github.com/rmoioliveira/scripts-suse/releases/tag/0.2.0) - 2026-06-18
