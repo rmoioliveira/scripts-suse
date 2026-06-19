@@ -77,18 +77,23 @@ OPTIONS:
 EXAMPLES:
   charts-query "SHOW TABLES;"
 
-  charts-query "DESCRIBE charts;" -table
-
-  charts-query "SELECT
-    *
-  FROM charts
+  charts-query "
+  SELECT
+    version_rancher,
+    version_chart,
+    string_agg(chart)
+  FROM
+    charts
   WHERE
-  regexp_matches(version_rancher, 'v2.1[1-5]')
-    AND rc
+    team = '@rancher/observation-backup'
     AND version_rank = 1
-    AND team = '@rancher/observation-backup'" -markdown
-
-  charts-query "$(cat query.sql)"
+    AND rc
+  GROUP BY
+    version_rancher,
+    version_chart
+  ORDER BY
+    natural_sort(version_rancher),
+    natural_sort(version_chart)"
 ```
 
 ## Command: deps-check
