@@ -60,11 +60,15 @@ backlink() {
 
 doc-readme() {
   cat <<EOF >|README.md
-# scripts
+# scripts suse
 
-This repository contains SUSE's day-to-day operations scripts. To add these
-scripts to your PATH, run \`make scripts-symlink\`. To view all available recipes, use
-\`make help\`.
+This repository contains day-to-day operations scripts.
+
+To add these scripts to your \`\$PATH\`, run \`make scripts-symlink\`. The
+scripts will be added to \`\${HOME}/.local/bin/\`. If this directory isn't
+already in your \`\$PATH\`, please add it.
+
+To view all available recipes, use \`make help\`.
 
 # index
 
