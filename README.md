@@ -1,5 +1,9 @@
 # scripts
 
+This repository contains SUSE's day-to-day operations scripts. To add these
+scripts to your PATH, run `make scripts-symlink`. To view all available recipes, use
+`make help`.
+
 # index
 
 - [Utilities](#utilities)
@@ -19,7 +23,20 @@
 
 ```
 DESCRIPTION:
-  Fetch all charts release data.
+  Fetch all chart versions data.
+
+  charts-fetch will clone the rancher/charts repository to ${HOME}/.charts and
+  create a duckdb database containing all chart versions data. The script will
+  use the following directory and files:
+
+    CHARTS_DIR_CHARTS="${HOME}/.charts"
+    CHARTS_DIR_REPO="${CHARTS_DIR_CHARTS}/repo"
+    CHARTS_DIR_DATA="${CHARTS_DIR_CHARTS}/data"
+    CHARTS_FILE_LIST="${CHARTS_DIR_DATA}/charts-list.csv"
+    CHARTS_FILE_DB="${CHARTS_DIR_DATA}/charts.db"
+    CHARTS_GIT_REMOTE="https://github.com/rancher/charts.git"
+
+  After fetching, use the charts-query command to query the data.
 
 USAGE:
   charts-fetch [OPTIONS]
@@ -38,22 +55,36 @@ EXAMPLES:
 
 ```
 DESCRIPTION:
-  An wrapper for duckdb to query charts release data.
+  A wrapper for duckdb to query chart versions data.
+
+  charts-query uses duckdb query engine to query data fetched from the command
+  charts-fetch. Check out duckdb documentation at https://duckdb.org/docs/current/
 
 USAGE:
   charts-query <QUERY> [OPTIONS]
 
 OPTIONS:
-  -h
+  -h, --help
+          Print charts-query help information (use '-h' for a summary)
+
+  --help-duckdb
           Print duckdb help information
-  --help
-          Print charts-query help information
 
 EXAMPLES:
   charts-query "SHOW TABLES;"
-  charts-query "SELECT * FROM charts WHERE version_rancher = 'v2.15' AND rc AND version_rank = 1" -markdown
-  charts-query "SELECT * FROM charts WHERE regexp_matches(version_rancher, 'v2.1[1-5]') AND rc AND version_rank = 1" -csv
-  charts-query "SELECT * FROM charts WHERE regexp_matches(version_rancher, 'v2.1[1-5]') AND rc AND version_rank = 1 AND team = '@rancher/observation-backup'" -jsonlines
+
+  charts-query "DESCRIBE charts;" -table
+
+  charts-query "SELECT
+    *
+  FROM charts
+  WHERE
+  regexp_matches(version_rancher, 'v2.1[1-5]')
+    AND rc
+    AND version_rank = 1
+    AND team = '@rancher/observation-backup'" -markdown
+
+  charts-query "$(cat query.sql)"
 ```
 
 ## Command: deps-check

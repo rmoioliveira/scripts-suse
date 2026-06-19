@@ -62,6 +62,10 @@ doc-readme() {
   cat <<EOF >|README.md
 # scripts
 
+This repository contains SUSE's day-to-day operations scripts. To add these
+scripts to your PATH, run \`make scripts-symlink\`. To view all available recipes, use
+\`make help\`.
+
 # index
 
 INDEX

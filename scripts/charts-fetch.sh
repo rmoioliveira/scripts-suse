@@ -8,7 +8,25 @@ set -o pipefail
 shopt -s inherit_errexit
 
 CMD_NAME="charts-fetch"
-CMD_DESCRIPTION="Fetch all charts release data."
+CMD_DESCRIPTION_SHORT="Fetch all chart versions data."
+CMD_DESCRIPTION_LONG=$(
+  cat <<EOF
+Fetch all chart versions data.
+
+  charts-fetch will clone the rancher/charts repository to \${HOME}/.charts and
+  create a duckdb database containing all chart versions data. The script will
+  use the following directory and files:
+
+    CHARTS_DIR_CHARTS="\${HOME}/.charts"
+    CHARTS_DIR_REPO="\${CHARTS_DIR_CHARTS}/repo"
+    CHARTS_DIR_DATA="\${CHARTS_DIR_CHARTS}/data"
+    CHARTS_FILE_LIST="\${CHARTS_DIR_DATA}/charts-list.csv"
+    CHARTS_FILE_DB="\${CHARTS_DIR_DATA}/charts.db"
+    CHARTS_GIT_REMOTE="https://github.com/rancher/charts.git"
+
+  After fetching, use the charts-query command to query the data.
+EOF
+)
 
 CHARTS_DIR_CHARTS="${HOME}/.charts"
 CHARTS_DIR_REPO="${CHARTS_DIR_CHARTS}/repo"
@@ -36,7 +54,7 @@ usage-short() {
 
   help_text=$(
     cat <<EOF
-DESCRIPTION: ${CMD_DESCRIPTION}
+DESCRIPTION: ${CMD_DESCRIPTION_SHORT}
 USAGE: ${CMD_NAME} [OPTIONS]
 OPTIONS:
   -h, --help          Print help information (use '--help' for more detail)
@@ -52,7 +70,7 @@ usage-long() {
   help_text=$(
     cat <<EOF
 DESCRIPTION:
-  ${CMD_DESCRIPTION}
+  ${CMD_DESCRIPTION_LONG}
 
 USAGE:
   ${CMD_NAME} [OPTIONS]
@@ -106,7 +124,7 @@ args-parse() {
 
 db-create-macros() {
   duckdb "${CHARTS_FILE_DB}" -c "
-CREATE OR REPLACE MACRO natural_key(a) AS list_transform(
+CREATE OR REPLACE MACRO natural_sort(a) AS list_transform(
   regexp_extract_all(a, '(\D+\d*|\d+)'),
   lambda x: { 's': regexp_extract(x, '(\D*)(\d*)', 1),
   'i': CASE
@@ -208,7 +226,7 @@ CREATE TABLE table_sorted AS (
   FROM
     table_rc
   ORDER BY
-    natural_key(version_rancher),
+    natural_sort(version_rancher),
     chart,
     version_chart
 );
@@ -232,13 +250,13 @@ OR REPLACE TABLE charts AS (
         version_rancher,
         chart
       ORDER BY
-        natural_key(version_chart) DESC
+        natural_sort(version_chart) DESC
     ) AS version_rank,
     rc
   FROM
     table_join
   ORDER BY
-    natural_key(version_rancher),
+    natural_sort(version_rancher),
     chart,
     version_rank
 );
