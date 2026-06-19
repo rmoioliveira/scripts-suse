@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.4.0](https://github.com/rmoioliveira/scripts-suse/releases/tag/0.4.0) - 2026-06-19
+
+- [b6cf4e2](http://github.com/rmoioliveira/scripts-suse/commit/b6cf4e2ceeab9fa30707d1d5120724ce99d6ed92) - **Documentation:** Improve charts-* scripts help
+- [4a4951a](http://github.com/rmoioliveira/scripts-suse/commit/4a4951adb92dcef4bb27cb70997ef24311e604aa) - **Documentation:** Update README.md
+- [7226477](http://github.com/rmoioliveira/scripts-suse/commit/722647727597d03766bbc75a1db2799639f3e4a8) - **Releases:** 0.3.0
+
 ## [0.3.0](https://github.com/rmoioliveira/scripts-suse/releases/tag/0.3.0) - 2026-06-18
 
 - [5efd2a8](http://github.com/rmoioliveira/scripts-suse/commit/5efd2a8f5dc112052bd88925c5cf918d97be9408) - **Bug Fixes:** Fix tags link in CHANGELOG.md
