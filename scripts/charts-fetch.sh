@@ -124,8 +124,11 @@ args-parse() {
 
 db-create-macros() {
   duckdb "${CHARTS_FILE_DB}" -c "
-CREATE OR REPLACE MACRO natural_sort(a) AS list_transform(
-  regexp_extract_all(a, '(\D+\d*|\d+)'),
+CREATE OR REPLACE MACRO version_sort(version) AS list_transform(
+  regexp_extract_all(
+    IF(regexp_matches(version, '-rc'), version, concat(version, '-z')),
+    '(\D+\d*|\d+)'
+  ),
   lambda x: { 's': regexp_extract(x, '(\D*)(\d*)', 1),
   'i': CASE
     WHEN regexp_extract(x, '(\D*)(\d*)', 2) = '' THEN -1
@@ -137,7 +140,6 @@ CREATE OR REPLACE MACRO natural_sort(a) AS list_transform(
 db-create-tables() {
   duckdb "${CHARTS_FILE_DB}" -c "
 DROP TABLE IF EXISTS table_rc;
-DROP TABLE IF EXISTS table_z;
 DROP TABLE IF EXISTS table_join;
 DROP TABLE IF EXISTS team_charts;
 CREATE TABLE team_charts (team VARCHAR, chart VARCHAR);
@@ -220,18 +222,11 @@ CREATE TABLE table_rc AS (
   FROM
     '${CHARTS_FILE_LIST}'
 );
-CREATE TABLE table_z AS (
-  SELECT
-    *,
-    IF(rc, version_chart, concat(version_chart, '-z')) AS version_sorting
-  FROM
-    table_rc
-);
 CREATE TABLE table_join AS (
   SELECT
     *
   FROM
-    table_z NATURAL
+    table_rc NATURAL
     JOIN team_charts
 );
 CREATE
@@ -247,18 +242,17 @@ OR REPLACE TABLE charts AS (
         version_rancher,
         chart
       ORDER BY
-        natural_sort(version_sorting) DESC
+        version_sort(version_chart) DESC
     ) AS version_rank,
     rc
   FROM
     table_join
   ORDER BY
-    natural_sort(version_rancher),
+    version_sort(version_rancher),
     chart,
     version_rank
 );
 DROP TABLE table_rc;
-DROP TABLE table_z;
 DROP TABLE table_join;
 DROP TABLE team_charts;
 "

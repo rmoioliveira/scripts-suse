@@ -80,8 +80,8 @@ EXAMPLES:
     version_rancher,
     version_chart
   ORDER BY
-    natural_sort(version_rancher),
-    natural_sort(version_chart)"
+    version_sort(version_rancher),
+    version_sort(version_chart)"
 EOF
   )
 
