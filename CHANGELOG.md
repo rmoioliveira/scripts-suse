@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.5.0](https://github.com/rmoioliveira/scripts-suse/releases/tag/0.5.0) - 2026-06-25
+
+- [52521b7](http://github.com/rmoioliveira/scripts-suse/commit/52521b75e8402ec8732c254b25b7cd39e262d99f) - **Bug Fixes:** Fix version sorting in charts-fetch
+- [49f2353](http://github.com/rmoioliveira/scripts-suse/commit/49f2353784b8984eebde1ea32aeb66f8640288ff) - **Miscellaneous Tasks:** Add example to charts-query
+- [84a931d](http://github.com/rmoioliveira/scripts-suse/commit/84a931dbc5535b811796258e3bf88771bac8c161) - **Releases:** 0.4.0
+
 ## [0.4.0](https://github.com/rmoioliveira/scripts-suse/releases/tag/0.4.0) - 2026-06-19
 
 - [b6cf4e2](http://github.com/rmoioliveira/scripts-suse/commit/b6cf4e2ceeab9fa30707d1d5120724ce99d6ed92) - **Documentation:** Improve charts-* scripts help
