@@ -40,7 +40,7 @@
     "https://plugins.dprint.dev/biome-0.13.0.wasm",
     "https://plugins.dprint.dev/oxc-0.28.0.wasm",
     "https://plugins.dprint.dev/mago-0.20.0.wasm",
-    "https://plugins.dprint.dev/ruff-0.7.16.wasm",
+    "https://plugins.dprint.dev/ruff-0.7.18.wasm",
     "https://plugins.dprint.dev/jupyter-0.2.3.wasm",
     "https://plugins.dprint.dev/g-plane/malva-v0.16.0.wasm",
     "https://plugins.dprint.dev/g-plane/markup_fmt-v0.27.3.wasm",

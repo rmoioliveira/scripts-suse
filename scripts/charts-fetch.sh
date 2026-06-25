@@ -137,7 +137,7 @@ CREATE OR REPLACE MACRO natural_sort(a) AS list_transform(
 db-create-tables() {
   duckdb "${CHARTS_FILE_DB}" -c "
 DROP TABLE IF EXISTS table_rc;
-DROP TABLE IF EXISTS table_sorted;
+DROP TABLE IF EXISTS table_z;
 DROP TABLE IF EXISTS table_join;
 DROP TABLE IF EXISTS team_charts;
 CREATE TABLE team_charts (team VARCHAR, chart VARCHAR);
@@ -220,21 +220,18 @@ CREATE TABLE table_rc AS (
   FROM
     '${CHARTS_FILE_LIST}'
 );
-CREATE TABLE table_sorted AS (
+CREATE TABLE table_z AS (
   SELECT
-    *
+    *,
+    IF(rc, version_chart, concat(version_chart, '-z')) AS version_sorting
   FROM
     table_rc
-  ORDER BY
-    natural_sort(version_rancher),
-    chart,
-    version_chart
 );
 CREATE TABLE table_join AS (
   SELECT
     *
   FROM
-    table_sorted NATURAL
+    table_z NATURAL
     JOIN team_charts
 );
 CREATE
@@ -250,7 +247,7 @@ OR REPLACE TABLE charts AS (
         version_rancher,
         chart
       ORDER BY
-        natural_sort(version_chart) DESC
+        natural_sort(version_sorting) DESC
     ) AS version_rank,
     rc
   FROM
@@ -261,7 +258,7 @@ OR REPLACE TABLE charts AS (
     version_rank
 );
 DROP TABLE table_rc;
-DROP TABLE table_sorted;
+DROP TABLE table_z;
 DROP TABLE table_join;
 DROP TABLE team_charts;
 "
