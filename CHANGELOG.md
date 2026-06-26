@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.6.0](https://github.com/rmoioliveira/scripts-suse/releases/tag/0.6.0) - 2026-06-25
+
+- [eb4cd36](http://github.com/rmoioliveira/scripts-suse/commit/eb4cd3651a73259acccb627c1c42f31e805494ec) - **Features:** Move sorting logic to version_sort macro
+- [bab5585](http://github.com/rmoioliveira/scripts-suse/commit/bab5585bc833acff9ce8df274d987410c2c8e2f2) - **Releases:** 0.5.0
+
 ## [0.5.0](https://github.com/rmoioliveira/scripts-suse/releases/tag/0.5.0) - 2026-06-25
 
 - [52521b7](http://github.com/rmoioliveira/scripts-suse/commit/52521b75e8402ec8732c254b25b7cd39e262d99f) - **Bug Fixes:** Fix version sorting in charts-fetch
