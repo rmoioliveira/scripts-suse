@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.7.0](https://github.com/rmoioliveira/scripts-suse/releases/tag/0.7.0) - 2026-07-06
+
+- [11e6049](http://github.com/rmoioliveira/scripts-suse/commit/11e6049a4b5188397275da8b774582fb66eca636) - **Bug Fixes:** Fix style for one char variables in bash scripts
+- [c245110](http://github.com/rmoioliveira/scripts-suse/commit/c24511021cdbb10bc7a811c39d9edea65909c3da) - **Features:** Add releases-fetch and releases-query scripts
+- [392e9de](http://github.com/rmoioliveira/scripts-suse/commit/392e9de9e18e41b114942e903455ede49a6ccee3) - **Features:** Add appco-* scripts
+- [97fc955](http://github.com/rmoioliveira/scripts-suse/commit/97fc955279265bb52212e8b7c3e4d4d78d567ee9) - **Features:** Add -r flag to xargs in scripts-*
+- [9f3c17e](http://github.com/rmoioliveira/scripts-suse/commit/9f3c17e9378abc829af8e297e9d382a40847bf90) - **Releases:** 0.6.0
+
 ## [0.6.0](https://github.com/rmoioliveira/scripts-suse/releases/tag/0.6.0) - 2026-06-25
 
 - [eb4cd36](http://github.com/rmoioliveira/scripts-suse/commit/eb4cd3651a73259acccb627c1c42f31e805494ec) - **Features:** Move sorting logic to version_sort macro
