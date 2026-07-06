@@ -73,7 +73,7 @@ EOF
 }
 
 run() {
-  exec duckdb "${RELEASES_FILE_DB}" "${@}"
+  exec duckdb "${RELEASES_FILE_DB}" "$@"
 }
 
 main() {
@@ -102,7 +102,7 @@ main() {
     exit 1
   fi
 
-  run "${@}"
+  run "$@"
 }
 
-main "${@}"
+main "$@"

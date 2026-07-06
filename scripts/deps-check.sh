@@ -61,15 +61,15 @@ args-parse() {
       -n "${CMD_NAME}" \
       -o h \
       --long help \
-      -- "${@}"
+      -- "$@"
   ); then
     printf 1>&2 "\nFor more information try '--help'\n"
     exit 1
   fi
   eval set -- "${args}"
 
-  while [[ $# -gt 0 ]]; do
-    case "${1}" in
+  while [[ "$#" -gt 0 ]]; do
+    case "$1" in
     -h)
       usage-short
       exit 0
@@ -114,8 +114,8 @@ deps-check() {
 }
 
 main() {
-  args-parse "${@}"
-  deps-check "${@}"
+  args-parse "$@"
+  deps-check "$@"
 }
 
-main "${@}"
+main "$@"

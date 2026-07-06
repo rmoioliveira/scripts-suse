@@ -89,7 +89,7 @@ EOF
 }
 
 run() {
-  exec duckdb "${CHARTS_FILE_DB}" "${@}"
+  exec duckdb "${CHARTS_FILE_DB}" "$@"
 }
 
 main() {
@@ -118,7 +118,7 @@ main() {
     exit 1
   fi
 
-  run "${@}"
+  run "$@"
 }
 
-main "${@}"
+main "$@"
