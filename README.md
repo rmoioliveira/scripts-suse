@@ -11,6 +11,8 @@ To view all available recipes, use `make help`.
 # index
 
 - [Utilities](#utilities)
+  - [Command: appco-fetch](#command-appco-fetch)
+  - [Command: appco-query](#command-appco-query)
   - [Command: charts-fetch](#command-charts-fetch)
   - [Command: charts-query](#command-charts-query)
   - [Command: deps-check](#command-deps-check)
@@ -22,6 +24,68 @@ To view all available recipes, use `make help`.
 # Utilities
 
 [back^](#index)
+
+## Command: appco-fetch
+
+[back^](#index)
+
+```
+DESCRIPTION:
+  Fetch all appco release information.
+
+  appco-fetch will use the curl utility under the hood to fetch the release info
+  from all appco registry and create a duckdb database containing all release
+  versions' data. The script will use the following directory and files:
+
+    APPCO_DIR="${HOME}/.appco"
+    APPCO_DIR_DATA="${APPCO_DIR}/data"
+    APPCO_LIST="${APPCO_DIR_DATA}/appco-list.json"
+    APPCO_OBJECT="${APPCO_DIR_DATA}/appco-object.json"
+    APPCO_FILE_DB="${APPCO_DIR_DATA}/appco.db"
+
+  After fetching, use the appco-query command to query the data.
+
+USAGE:
+  appco-fetch [OPTIONS]
+
+OPTIONS:
+      --token <TOKEN>
+          Auth token to login in appco
+          Token format: "<your-username-or-sa-username>:<access-token-or-sa-secret>"
+          See more info: https://docs.apps.rancher.io/get-started/authentication
+
+  -h, --help
+          Print help information (use '-h' for a summary)
+
+EXAMPLES:
+  appco-fetch --token $(pass work/suse/appco-registry-token | base64 -d)
+```
+
+## Command: appco-query
+
+[back^](#index)
+
+```
+DESCRIPTION:
+  A wrapper for duckdb to query appco versions data.
+
+  appco-query uses duckdb query engine to query data fetched from the command
+  appco-fetch. Check out duckdb documentation at https://duckdb.org/docs/current/
+
+USAGE:
+  appco-query <QUERY> [OPTIONS]
+
+OPTIONS:
+  -h, --help
+          Print appco-query help information (use '-h' for a summary)
+
+  --help-duckdb
+          Print duckdb help information
+
+EXAMPLES:
+  appco-query "SHOW TABLES;"
+  appco-query "SELECT * FROM appco WHERE version_rank = 1"
+```
 
 ## Command: charts-fetch
 
