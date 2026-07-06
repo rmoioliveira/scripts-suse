@@ -14,6 +14,8 @@ To view all available recipes, use `make help`.
   - [Command: charts-fetch](#command-charts-fetch)
   - [Command: charts-query](#command-charts-query)
   - [Command: deps-check](#command-deps-check)
+  - [Command: releases-fetch](#command-releases-fetch)
+  - [Command: releases-query](#command-releases-query)
 - [Make Recipes](#make-recipes)
 - [How to Release](#how-to-release)
 
@@ -30,7 +32,7 @@ DESCRIPTION:
   Fetch all chart versions data.
 
   charts-fetch will clone the rancher/charts repository to ${HOME}/.charts and
-  create a duckdb database containing all chart versions data. The script will
+  create a duckdb database containing all chart versions' data. The script will
   use the following directory and files:
 
     CHARTS_DIR_CHARTS="${HOME}/.charts"
@@ -76,7 +78,6 @@ OPTIONS:
 
 EXAMPLES:
   charts-query "SHOW TABLES;"
-
   charts-query "
   SELECT
     version_rancher,
@@ -93,7 +94,8 @@ EXAMPLES:
     version_chart
   ORDER BY
     version_sort(version_rancher),
-    version_sort(version_chart)"
+    version_sort(version_chart)
+  "
 ```
 
 ## Command: deps-check
@@ -117,6 +119,65 @@ iconv
 kubectl
 nmap
 EOF
+```
+
+## Command: releases-fetch
+
+[back^](#index)
+
+```
+DESCRIPTION:
+  Fetch all release data from Rancher repos.
+
+  releases-fetch will use the gh utility under the hood to fetch the release
+  info from all Rancher-owned repositories and create a duckdb database
+  containing all release versions' data. The script will use the following
+  directory and files:
+
+    RELEASES_DIR="${HOME}/.releases"
+    RELEASES_DIR_DATA="${RELEASES_DIR}/data"
+    RELEASES_DIR_REPOS="${RELEASES_DIR_DATA}/repos"
+    RELEASES_DIR_RELEASES="${RELEASES_DIR_DATA}/releases"
+    RELEASES_FILE_DB="${RELEASES_DIR_DATA}/releases.db"
+
+  After fetching, use the releases-query command to query the data.
+
+USAGE:
+  releases-fetch [OPTIONS]
+
+OPTIONS:
+  -h, --help
+          Print help information (use '-h' for a summary)
+
+EXAMPLES:
+  releases-fetch
+```
+
+## Command: releases-query
+
+[back^](#index)
+
+```
+DESCRIPTION:
+  A wrapper for duckdb to query releases versions data.
+
+  releases-query uses duckdb query engine to query data fetched from the command
+  releases-fetch. Check out duckdb documentation at https://duckdb.org/docs/current/
+
+USAGE:
+  releases-query <QUERY> [OPTIONS]
+
+OPTIONS:
+  -h, --help
+          Print releases-query help information (use '-h' for a summary)
+
+  --help-duckdb
+          Print duckdb help information
+
+EXAMPLES:
+  releases-query "SHOW TABLES;"
+  releases-query "SELECT repository, tagName FROM releases WHERE isLatest"
+  releases-query "SELECT name, * FROM repositories ORDER BY stargazersCount DESC"
 ```
 
 # Make Recipes

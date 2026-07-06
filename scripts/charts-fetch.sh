@@ -14,7 +14,7 @@ CMD_DESCRIPTION_LONG=$(
 Fetch all chart versions data.
 
   charts-fetch will clone the rancher/charts repository to \${HOME}/.charts and
-  create a duckdb database containing all chart versions data. The script will
+  create a duckdb database containing all chart versions' data. The script will
   use the following directory and files:
 
     CHARTS_DIR_CHARTS="\${HOME}/.charts"

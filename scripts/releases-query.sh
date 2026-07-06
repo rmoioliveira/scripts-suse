@@ -7,20 +7,20 @@ set -o noclobber
 set -o pipefail
 shopt -s inherit_errexit
 
-CMD_NAME="charts-query"
-CMD_DESCRIPTION_SHORT="A wrapper for duckdb to query chart versions data."
+CMD_NAME="releases-query"
+CMD_DESCRIPTION_SHORT="A wrapper for duckdb to query releases versions data."
 CMD_DESCRIPTION_LONG=$(
   cat <<EOF
-A wrapper for duckdb to query chart versions data.
+A wrapper for duckdb to query releases versions data.
 
-  charts-query uses duckdb query engine to query data fetched from the command
-  charts-fetch. Check out duckdb documentation at https://duckdb.org/docs/current/
+  releases-query uses duckdb query engine to query data fetched from the command
+  releases-fetch. Check out duckdb documentation at https://duckdb.org/docs/current/
 EOF
 )
 
-CHARTS_DIR_CHARTS="${HOME}/.charts"
-CHARTS_DIR_DATA="${CHARTS_DIR_CHARTS}/data"
-CHARTS_FILE_DB="${CHARTS_DIR_DATA}/charts.db"
+RELEASES_DIR="${HOME}/.releases"
+RELEASES_DIR_DATA="${RELEASES_DIR}/data"
+RELEASES_FILE_DB="${RELEASES_DIR_DATA}/releases.db"
 
 deps-validate() {
   cat <<EOF | deps-check
@@ -36,7 +36,7 @@ usage-short() {
 DESCRIPTION: ${CMD_DESCRIPTION_SHORT}
 USAGE: ${CMD_NAME} [OPTIONS]
 OPTIONS:
-  -h, --help          Print charts-query help information (use '--help' for more detail)
+  -h, --help          Print releases-query help information (use '--help' for more detail)
   --help-duckdb       Print duckdb help information
 EOF
   )
@@ -57,31 +57,15 @@ USAGE:
 
 OPTIONS:
   -h, --help
-          Print charts-query help information (use '-h' for a summary)
+          Print releases-query help information (use '-h' for a summary)
 
   --help-duckdb
           Print duckdb help information
 
 EXAMPLES:
   ${CMD_NAME} "SHOW TABLES;"
-  ${CMD_NAME} "
-  SELECT
-    version_rancher,
-    version_chart,
-    string_agg(chart)
-  FROM
-    charts
-  WHERE
-    team = '@rancher/observation-backup'
-    AND version_rank = 1
-    AND rc
-  GROUP BY
-    version_rancher,
-    version_chart
-  ORDER BY
-    version_sort(version_rancher),
-    version_sort(version_chart)
-  "
+  ${CMD_NAME} "SELECT repository, tagName FROM releases WHERE isLatest"
+  ${CMD_NAME} "SELECT name, * FROM repositories ORDER BY stargazersCount DESC"
 EOF
   )
 
@@ -89,7 +73,7 @@ EOF
 }
 
 run() {
-  exec duckdb "${CHARTS_FILE_DB}" "${@}"
+  exec duckdb "${RELEASES_FILE_DB}" "${@}"
 }
 
 main() {
@@ -112,9 +96,9 @@ main() {
     exec duckdb -h
   fi
 
-  if [[ ! -f "${CHARTS_FILE_DB}" ]]; then
-    printf 1>&2 "error: missing charts database.\n"
-    printf 1>&2 "run: \`charts-fetch\` first...\n"
+  if [[ ! -f "${RELEASES_FILE_DB}" ]]; then
+    printf 1>&2 "error: missing releases database.\n"
+    printf 1>&2 "run: \`releases-fetch\` first...\n"
     exit 1
   fi
 
