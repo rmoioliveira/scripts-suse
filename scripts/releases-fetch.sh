@@ -198,6 +198,13 @@ releases-fetch() {
     jq --arg REPO "${repo}" '.[].repository=$REPO' >|"${RELEASES_DIR_RELEASES}/${repo_file}"
 }
 
+gh-auth-status() {
+  if ! is_logged=$(gh auth status); then
+    printf 1>&2 "%s" "${is_logged}"
+    exit 1
+  fi
+}
+
 export RELEASES_DIR
 export RELEASES_DIR_DATA
 export RELEASES_DIR_REPOS
@@ -207,6 +214,7 @@ export -f releases-fetch
 
 run() {
   releases-create-dir-if-missing
+  gh-auth-status
   repository-list
   <"${RELEASES_DIR_REPOS}/all.json" jq '.[].fullName' -r |
     parallel releases-fetch
