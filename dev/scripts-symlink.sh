@@ -9,15 +9,15 @@ set -o noclobber
 
 scripts-symlink-echo() {
   paste -d " " \
-    <(find scripts -type f -name "*.sh" -print0 | xargs -0 realpath) \
-    <(find scripts -type f -name "*.sh" -print0 | xargs -0 realpath | awk -F/ '{print $NF}' | sed -E 's@(.+)\.sh$@${HOME}/.local/bin/\1@g' | envsubst) |
+    <(find scripts -type f -name "*.sh" -print0 | xargs -r -0 realpath) \
+    <(find scripts -type f -name "*.sh" -print0 | xargs -r -0 realpath | awk -F/ '{print $NF}' | sed -E 's@(.+)\.sh$@${HOME}/.local/bin/\1@g' | envsubst) |
     xargs -r -n2 echo ln -s
 }
 
 scripts-symlink() {
   paste -d " " \
-    <(find scripts -type f -name "*.sh" -print0 | xargs -0 realpath) \
-    <(find scripts -type f -name "*.sh" -print0 | xargs -0 realpath | awk -F/ '{print $NF}' | sed -E 's@(.+)\.sh$@${HOME}/.local/bin/\1@g' | envsubst) |
+    <(find scripts -type f -name "*.sh" -print0 | xargs -r -0 realpath) \
+    <(find scripts -type f -name "*.sh" -print0 | xargs -r -0 realpath | awk -F/ '{print $NF}' | sed -E 's@(.+)\.sh$@${HOME}/.local/bin/\1@g' | envsubst) |
     xargs -r -n2 ln -s
 }
 

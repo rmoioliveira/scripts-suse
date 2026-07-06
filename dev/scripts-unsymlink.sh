@@ -9,7 +9,7 @@ set -o noclobber
 
 scripts-unsymlink-echo() {
   find scripts -type f -name "*.sh" -print0 |
-    xargs -0 realpath |
+    xargs -r -0 realpath |
     awk -F/ '{print $NF}' |
     sed -E 's@(.+)\.sh$@${HOME}/.local/bin/\1@g' |
     envsubst |
@@ -18,7 +18,7 @@ scripts-unsymlink-echo() {
 
 scripts-unsymlink() {
   find scripts -type f -name "*.sh" -print0 |
-    xargs -0 realpath |
+    xargs -r -0 realpath |
     awk -F/ '{print $NF}' |
     sed -E 's@(.+)\.sh$@${HOME}/.local/bin/\1@g' |
     envsubst |
