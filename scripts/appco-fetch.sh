@@ -130,7 +130,7 @@ args-parse() {
 
 db-create-macros() {
   duckdb "${APPCO_FILE_DB}" -c "
-CREATE OR REPLACE MACRO version_sort(version) AS list_transform(
+CREATE OR REPLACE MACRO vsort(version) AS list_transform(
   regexp_extract_all(
     IF(regexp_matches(version, '-'), concat(version, '-z'), version),
     '(\D+\d*|\d+)'
@@ -148,26 +148,26 @@ db-create-tables() {
 DROP TABLE IF EXISTS table_appco;
 CREATE TABLE table_appco AS (
   SELECT
-    name AS appco,
-    UNNEST(tags) AS version_appco
+    name AS app,
+    UNNEST(tags) AS version_app
   FROM
    '${APPCO_OBJECT}'
 );
 CREATE
 OR REPLACE TABLE appco AS (
   SELECT
-    appco,
-    version_appco,
+    app,
+    version_app,
     row_number() OVER (
       PARTITION BY
-        appco
+        app
       ORDER BY
-        version_sort(version_appco) DESC
+        vsort(version_app) DESC
     ) AS version_rank
   FROM
     table_appco
   ORDER BY
-    appco,
+    app,
     version_rank
 );
 DROP TABLE table_appco;

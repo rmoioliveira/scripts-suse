@@ -124,7 +124,7 @@ args-parse() {
 
 db-create-macros() {
   duckdb "${CHARTS_FILE_DB}" -c "
-CREATE OR REPLACE MACRO version_sort(version) AS list_transform(
+CREATE OR REPLACE MACRO vsort(version) AS list_transform(
   regexp_extract_all(
     IF(regexp_matches(version, '-rc'), version, concat(version, '-z')),
     '(\D+\d*|\d+)'
@@ -242,13 +242,13 @@ OR REPLACE TABLE charts AS (
         version_rancher,
         chart
       ORDER BY
-        version_sort(version_chart) DESC
+        vsort(version_chart) DESC
     ) AS version_rank,
     rc
   FROM
     table_join
   ORDER BY
-    version_sort(version_rancher),
+    vsort(version_rancher),
     chart,
     version_rank
 );

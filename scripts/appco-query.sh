@@ -65,6 +65,7 @@ OPTIONS:
 EXAMPLES:
   ${CMD_NAME} "SHOW TABLES;"
   ${CMD_NAME} "SELECT * FROM appco WHERE version_rank = 1"
+  ${CMD_NAME} "SELECT * FROM appco WHERE app = 'containers/grafana-image-renderer' AND vsort(version_app) >= vsort('5.8.8')" -csv -noheader
 EOF
   )
 

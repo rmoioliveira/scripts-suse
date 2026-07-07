@@ -79,8 +79,8 @@ EXAMPLES:
     version_rancher,
     version_chart
   ORDER BY
-    version_sort(version_rancher),
-    version_sort(version_chart)
+    vsort(version_rancher),
+    vsort(version_chart)
   "
 EOF
   )

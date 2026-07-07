@@ -120,7 +120,7 @@ args-parse() {
 
 db-create-macros() {
   duckdb "${RELEASES_FILE_DB}" -c "
-CREATE OR REPLACE MACRO version_sort(version) AS list_transform(
+CREATE OR REPLACE MACRO vsort(version) AS list_transform(
   regexp_extract_all(
     IF(regexp_matches(version, '-rc'), version, concat(version, '-z')),
     '(\D+\d*|\d+)'
