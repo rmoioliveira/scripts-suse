@@ -122,7 +122,7 @@ db-create-macros() {
   duckdb "${RELEASES_FILE_DB}" -c "
 CREATE OR REPLACE MACRO vsort(version) AS list_transform(
   regexp_extract_all(
-    IF(regexp_matches(version, '-rc'), version, concat(version, '-z')),
+    IF(regexp_matches(version, '-'), version, concat(version, '-~')),
     '(\D+\d*|\d+)'
   ),
   lambda x: { 's': regexp_extract(x, '(\D*)(\d*)', 1),

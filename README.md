@@ -85,6 +85,7 @@ OPTIONS:
 EXAMPLES:
   appco-query "SHOW TABLES;"
   appco-query "SELECT * FROM appco WHERE version_rank = 1"
+  appco-query "SELECT * FROM appco WHERE app = 'containers/grafana-image-renderer' AND vsort(version_app) >= vsort('5.8.8')" -csv -noheader
 ```
 
 ## Command: charts-fetch
@@ -157,8 +158,8 @@ EXAMPLES:
     version_rancher,
     version_chart
   ORDER BY
-    version_sort(version_rancher),
-    version_sort(version_chart)
+    vsort(version_rancher),
+    vsort(version_chart)
   "
 ```
 
