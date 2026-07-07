@@ -128,7 +128,7 @@ CREATE OR REPLACE MACRO vsort(version) AS list_transform(
   lambda x: { 's': regexp_extract(x, '(\D*)(\d*)', 1),
   'i': CASE
     WHEN regexp_extract(x, '(\D*)(\d*)', 2) = '' THEN -1
-    ELSE CAST(regexp_extract(x, '(\D*)(\d*)', 2) AS INTEGER)
+    ELSE CAST(regexp_extract(x, '(\D*)(\d*)', 2) AS BIGINT)
   END }
 );"
 }
@@ -138,9 +138,26 @@ db-create-tables() {
 CREATE
 OR REPLACE TABLE releases AS (
   SELECT
-    repository,createdAt,isDraft,isImmutable,isLatest,isPrerelease,name,publishedAt,tagName
+    repository,
+    createdAt,
+    isDraft,
+    isImmutable,
+    isLatest,
+    isPrerelease,
+    name,
+    publishedAt,
+    tagName,
+    row_number() OVER (
+      PARTITION BY
+        repository
+      ORDER BY
+        vsort(tagName) DESC
+    ) AS version_rank
   FROM
     '${RELEASES_DIR_RELEASES}/*.json'
+  ORDER BY
+    repository,
+    version_rank
 );
 
 CREATE

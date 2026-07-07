@@ -132,7 +132,7 @@ CREATE OR REPLACE MACRO vsort(version) AS list_transform(
   lambda x: { 's': regexp_extract(x, '(\D*)(\d*)', 1),
   'i': CASE
     WHEN regexp_extract(x, '(\D*)(\d*)', 2) = '' THEN -1
-    ELSE CAST(regexp_extract(x, '(\D*)(\d*)', 2) AS INTEGER)
+    ELSE CAST(regexp_extract(x, '(\D*)(\d*)', 2) AS BIGINT)
   END }
 );"
 }
