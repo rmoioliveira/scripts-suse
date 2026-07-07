@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.8.0](https://github.com/rmoioliveira/scripts-suse/releases/tag/0.8.0) - 2026-07-07
+
+- [390519c](http://github.com/rmoioliveira/scripts-suse/commit/390519cda1c6c13ccff3e0972a562a31761a275f) - **Features:** Add gh-auth-status to releases-fetch
+- [9558939](http://github.com/rmoioliveira/scripts-suse/commit/95589394bb45d458640b7f2f359300ec3f55438f) - **Features:** Rename version_sort macro to vsort
+- [77159dd](http://github.com/rmoioliveira/scripts-suse/commit/77159dd50cd5cc4fa247ce7021fd60c3f9fb4fe0) - **Features:** Update vsort macro
+- [e810919](http://github.com/rmoioliveira/scripts-suse/commit/e81091906f537f25c8587182e65347fc627d0776) - **Features:** Add version_rank to releases-fetch
+- [7e6158e](http://github.com/rmoioliveira/scripts-suse/commit/7e6158e089281b654870aebef46d4fae9b30798e) - **Releases:** 0.7.0
+
 ## [0.7.0](https://github.com/rmoioliveira/scripts-suse/releases/tag/0.7.0) - 2026-07-06
 
 - [11e6049](http://github.com/rmoioliveira/scripts-suse/commit/11e6049a4b5188397275da8b774582fb66eca636) - **Bug Fixes:** Fix style for one char variables in bash scripts
