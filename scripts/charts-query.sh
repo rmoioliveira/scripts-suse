@@ -64,6 +64,7 @@ OPTIONS:
 
 EXAMPLES:
   ${CMD_NAME} "SHOW TABLES;"
+  ${CMD_NAME} "DESCRIBE TABLE charts;"
   ${CMD_NAME} "
   SELECT
     version_rancher,

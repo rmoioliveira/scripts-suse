@@ -64,6 +64,8 @@ OPTIONS:
 
 EXAMPLES:
   ${CMD_NAME} "SHOW TABLES;"
+  ${CMD_NAME} "DESCRIBE TABLE releases;"
+  ${CMD_NAME} "DESCRIBE TABLE repositories;"
   ${CMD_NAME} "SELECT repository, tagName FROM releases WHERE isLatest"
   ${CMD_NAME} "SELECT name, * FROM repositories ORDER BY stargazersCount DESC"
 EOF
