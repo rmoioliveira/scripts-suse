@@ -53,8 +53,8 @@ usage-short() {
 DESCRIPTION: ${CMD_DESCRIPTION}
 USAGE: ${CMD_NAME} [OPTIONS]
 OPTIONS:
-      --token <TOKEN> Auth token to login in appco
-  -h, --help          Print help information (use '--help' for more detail)
+      --appco-token <APPCO_TOKEN> Auth token to login in appco
+  -h, --help                      Print help information (use '--help' for more detail)
 EOF
   )
 
@@ -73,7 +73,7 @@ USAGE:
   ${CMD_NAME} [OPTIONS]
 
 OPTIONS:
-      --token <TOKEN>
+      --appco-token <APPCO_TOKEN>
           Auth token to login in appco
           Token format: "<your-username-or-sa-username>:<access-token-or-sa-secret>"
           See more info: https://docs.apps.rancher.io/get-started/authentication
@@ -82,7 +82,7 @@ OPTIONS:
           Print help information (use '-h' for a summary)
 
 EXAMPLES:
-  ${CMD_NAME} --token \$(pass work/suse/appco-registry-token | base64 -d)
+  ${CMD_NAME} --appco-token \$(pass work/suse/appco-registry-token | base64 -d)
 EOF
   )
 
@@ -96,7 +96,7 @@ args-parse() {
     getopt -a \
       -n "${CMD_NAME}" \
       -o h \
-      --long help,token: \
+      --long help,appco-token: \
       -- "$@"
   ); then
     printf 1>&2 "\nFor more information try '--help'\n"
@@ -106,9 +106,9 @@ args-parse() {
 
   while [[ "$#" -gt 0 ]]; do
     case "$1" in
-    --token)
+    --appco-token)
       shift
-      TOKEN="$1"
+      APPCO_TOKEN="$1"
       ;;
     -h)
       usage-short
@@ -189,8 +189,8 @@ appco-create-dir-if-missing() {
 }
 
 args-validate() {
-  if [[ -z "${TOKEN}" ]]; then
-    printf 1>&2 "error: invalid value '%s' for '--token <TOKEN>'\n" "${TOKEN}"
+  if [[ -z "${APPCO_TOKEN}" ]]; then
+    printf 1>&2 "error: invalid value '%s' for '--appco-token <APPCO_TOKEN>'\n" "${APPCO_TOKEN}"
     printf 1>&2 "\nFor more information try '--help'\n"
     exit 1
   fi
@@ -198,7 +198,7 @@ args-validate() {
 
 curl-appco-repos() {
   printf 1>&2 "processing appco repos ...\n"
-  curl -u "${TOKEN}" 'https://dp.apps.rancher.io/v2/_catalog' --no-progress-meter |
+  curl -u "${APPCO_TOKEN}" 'https://dp.apps.rancher.io/v2/_catalog' --no-progress-meter |
     jq '.repositories[]' -r |
     sed -E 's@(.+)@https://dp.apps.rancher.io/v2/\1/tags/list@g'
 }
@@ -206,12 +206,12 @@ curl-appco-repos() {
 curl-appco-apps() {
   local url="$1"
   printf 1>&2 "processing %s ...\n" "${url}"
-  curl -u "${TOKEN}" "${url}" --no-progress-meter
+  curl -u "${APPCO_TOKEN}" "${url}" --no-progress-meter
 }
 
 export -f curl-appco-repos
 export -f curl-appco-apps
-export TOKEN
+export APPCO_TOKEN
 
 appco-fetch() {
   curl-appco-repos |
