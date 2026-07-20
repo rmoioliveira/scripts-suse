@@ -201,14 +201,14 @@ OPTIONS:
           Github token
 
       --gh-repo <GH_REPO>
-          Github repository [format: <onwer>/<repo>]
+          Github repository [format: <owner>/<repo>]
 
   -h, --help
           Print help information (use '-h' for a summary)
 
 EXAMPLES:
-  cve-fetch --gh-user $(pass work/suse/gh-username) --gh-token $(pass work/suse/gh-token-repo) --gh-repo <onwer>/<repo>
-  GH_USER=$(pass work/suse/gh-username) GH_TOKEN=$(pass work/suse/gh-token-repo) GH_REPO=<onwer>/<repo> cve-fetch
+  cve-fetch --gh-user $(pass work/suse/gh-username) --gh-token $(pass work/suse/gh-token-repo) --gh-repo <owner>/<repo>
+  GH_USER=$(pass work/suse/gh-username) GH_TOKEN=$(pass work/suse/gh-token-repo) GH_REPO=<owner>/<repo> cve-fetch
 ```
 
 ## Command: cve-query
