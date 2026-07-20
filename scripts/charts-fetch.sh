@@ -280,9 +280,9 @@ charts-create-dir-if-missing() {
   db-create-macros
 }
 
-git-fetch-all() {
-  printf 1>&2 "fetching all branches from remote\n"
-  1>&2 git -C "${CHARTS_DIR_REPO}" fetch --all
+git-pull-all() {
+  printf 1>&2 "pulling all branches from remote\n"
+  1>&2 git -C "${CHARTS_DIR_REPO}" pull --all
 }
 
 git-branch-remotes() {
@@ -314,7 +314,7 @@ export -f git-ls-tree
 
 run() {
   charts-create-dir-if-missing
-  git-fetch-all
+  git-pull-all
   git-branch-remotes |
     parallel git-ls-tree |
     sed '1i branch,chart,version_chart' >|"${CHARTS_FILE_LIST}"
