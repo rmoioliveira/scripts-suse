@@ -15,6 +15,8 @@ To view all available recipes, use `make help`.
   - [Command: appco-query](#command-appco-query)
   - [Command: charts-fetch](#command-charts-fetch)
   - [Command: charts-query](#command-charts-query)
+  - [Command: cve-fetch](#command-cve-fetch)
+  - [Command: cve-query](#command-cve-query)
   - [Command: deps-check](#command-deps-check)
   - [Command: releases-fetch](#command-releases-fetch)
   - [Command: releases-query](#command-releases-query)
@@ -49,7 +51,7 @@ USAGE:
   appco-fetch [OPTIONS]
 
 OPTIONS:
-      --token <TOKEN>
+      --appco-token <APPCO_TOKEN>
           Auth token to login in appco
           Token format: "<your-username-or-sa-username>:<access-token-or-sa-secret>"
           See more info: https://docs.apps.rancher.io/get-started/authentication
@@ -58,7 +60,7 @@ OPTIONS:
           Print help information (use '-h' for a summary)
 
 EXAMPLES:
-  appco-fetch --token $(pass work/suse/appco-registry-token | base64 -d)
+  appco-fetch --appco-token $(pass work/suse/appco-registry-token | base64 -d)
 ```
 
 ## Command: appco-query
@@ -84,6 +86,7 @@ OPTIONS:
 
 EXAMPLES:
   appco-query "SHOW TABLES;"
+  appco-query "DESCRIBE TABLE appco;"
   appco-query "SELECT * FROM appco WHERE version_rank = 1"
   appco-query "SELECT * FROM appco WHERE app = 'containers/grafana-image-renderer' AND vsort(version_app) >= vsort('5.8.8')" -csv -noheader
 ```
@@ -143,6 +146,7 @@ OPTIONS:
 
 EXAMPLES:
   charts-query "SHOW TABLES;"
+  charts-query "DESCRIBE TABLE charts;"
   charts-query "
   SELECT
     version_rancher,
@@ -161,6 +165,83 @@ EXAMPLES:
     vsort(version_rancher),
     vsort(version_chart)
   "
+```
+
+## Command: cve-fetch
+
+[back^](#index)
+
+```
+DESCRIPTION:
+  Fetch all cve data.
+
+  cve-fetch will clone the `--gh-repo=<GH_REPO>` repository to ${HOME}/.cve
+  and create a duckdb database containing all cve' data. The script will use the
+  following directory and files:
+
+    CVE_DIR_CVE="${HOME}/.cve"
+    CVE_DIR_VEX="${HOME}/.trivy/vex"
+    CVE_VEX_REPO="${CVE_DIR_VEX}/repository.yaml"
+    CVE_DIR_REPO="${CVE_DIR_CVE}/repo"
+    CVE_DIR_DATA="${CVE_DIR_CVE}/data"
+    CVE_DIR_SCAN="${CVE_DIR_CVE}/scan"
+    CVE_FILE_IMAGE_TEAMS="${CVE_DIR_DATA}/image-teams.csv"
+    CVE_FILE_DB="${CVE_DIR_DATA}/cve.db"
+
+  After fetching, use the cve-query command to query the data.
+
+USAGE:
+  cve-fetch [OPTIONS]
+
+OPTIONS:
+      --gh-user <GH_USER>
+          Github username
+
+      --gh-token <GH_TOKEN>
+          Github token
+
+      --gh-repo <GH_REPO>
+          Github repository [format: <onwer>/<repo>]
+
+  -h, --help
+          Print help information (use '-h' for a summary)
+
+EXAMPLES:
+  cve-fetch --gh-user $(pass work/suse/gh-username) --gh-token $(pass work/suse/gh-token-repo) --gh-repo <onwer>/<repo>
+  GH_USER=$(pass work/suse/gh-username) GH_TOKEN=$(pass work/suse/gh-token-repo) GH_REPO=<onwer>/<repo> cve-fetch
+```
+
+## Command: cve-query
+
+[back^](#index)
+
+```
+DESCRIPTION:
+  A wrapper for duckdb to query cve data.
+
+  cve-query uses duckdb query engine to query data fetched from the command
+  cve-fetch. Check out duckdb documentation at https://duckdb.org/docs/current/
+
+USAGE:
+  cve-query <QUERY> [OPTIONS]
+
+OPTIONS:
+  -h, --help
+          Print cve-query help information (use '-h' for a summary)
+
+  --help-duckdb
+          Print duckdb help information
+
+EXAMPLES:
+  cve-query "SHOW TABLES;"
+  cve-query "DESCRIBE TABLE team_image;"
+  cve-query "DESCRIBE TABLE cve;"
+  cve-query "SELECT * FROM team_image;"
+  cve-query "SELECT * FROM cve;"
+  cve-query "SELECT Image,Library,Vulnerability,Severity,Status,InstalledVersion,FixedVersion FROM cve WHERE Image = 'rancher/rancher:head';"
+  cve-query "SELECT Team, count(Team) AS VulnCount FROM (SELECT UNNEST(Teams) AS Team FROM cve) GROUP BY Team ORDER BY VulnCount DESC;"
+  cve-query "SELECT Image, count(Vulnerability) AS VulnCount FROM cve WHERE list_has(Teams, 'orbs') GROUP BY Image ORDER BY VulnCount DESC;"
+  cve-query "SELECT count(Vulnerability) AS VulnCount FROM cve WHERE list_has(Teams, 'orbs');"
 ```
 
 ## Command: deps-check
@@ -241,6 +322,8 @@ OPTIONS:
 
 EXAMPLES:
   releases-query "SHOW TABLES;"
+  releases-query "DESCRIBE TABLE releases;"
+  releases-query "DESCRIBE TABLE repositories;"
   releases-query "SELECT repository, tagName FROM releases WHERE isLatest"
   releases-query "SELECT name, * FROM repositories ORDER BY stargazersCount DESC"
 ```

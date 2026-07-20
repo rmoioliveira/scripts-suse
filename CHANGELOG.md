@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.9.0](https://github.com/rmoioliveira/scripts-suse/releases/tag/0.9.0) - 2026-07-20
+
+- [f4b9316](http://github.com/rmoioliveira/scripts-suse/commit/f4b9316cfefc1c690e6b6753452425d6281032b1) - **Features:** Add describe table to commands help
+- [ecdef84](http://github.com/rmoioliveira/scripts-suse/commit/ecdef849410e80eb3b18b89ef0038b5b5760e252) - **Features:** Add cve-* scripts
+- [5748438](http://github.com/rmoioliveira/scripts-suse/commit/57484389ccb5767d1aa387678d6139b4b12901e5) - **Features:** Add team_image table to cve-fetch script
+- [9e908c7](http://github.com/rmoioliveira/scripts-suse/commit/9e908c7ce52f1489178624c497504264136a7d92) - **Miscellaneous Tasks:** Rename flag to --appco-token
+- [18a9901](http://github.com/rmoioliveira/scripts-suse/commit/18a990125d8f1e442236ef2393696a67a3d21a7e) - **Miscellaneous Tasks:** Replace fetch for pull in git command
+- [6b5dd1a](http://github.com/rmoioliveira/scripts-suse/commit/6b5dd1af4093557acdd1dbb92a139b6690124a8e) - **Miscellaneous Tasks:** Remove concat from team_list in regex_list
+- [1cb79b4](http://github.com/rmoioliveira/scripts-suse/commit/1cb79b4e098c830899a78f2ce4f57172e40f08fc) - **Releases:** 0.8.0
+
 ## [0.8.0](https://github.com/rmoioliveira/scripts-suse/releases/tag/0.8.0) - 2026-07-07
 
 - [390519c](http://github.com/rmoioliveira/scripts-suse/commit/390519cda1c6c13ccff3e0972a562a31761a275f) - **Features:** Add gh-auth-status to releases-fetch
